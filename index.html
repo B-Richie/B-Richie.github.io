@@ -15,7 +15,14 @@
     gtag('config', 'UA-147193911-1');
 </script>
   </head>
-	<style>pre{ font-family: monospace    }</style>
+	<style>
+		pre {
+			font-family: monospace;
+			background: #f4f4f4;
+			border: 1px solid #ddd;
+			border-left: 3px solid #0000FF;
+		    }
+	</style>
 <body>
 <div class="container">
   <h1>Dapper Data Access Layer for ASP Core 2.2</h1>
@@ -34,7 +41,7 @@
       The IOptions interface is used to map the appsettings.json database connection section from the client:
     </p>
     <pre>
-	    <code>
+	  <code>
 	      services.AddTransient(resolver =>
 	      {
 		      var databaseConnections = resolver.GetService<IOptions<DatabaseConnections>>().Value;
@@ -52,8 +59,8 @@
 		      sql.dbConnection.ConnectionString = sql.ConnectionString;
 		      sql.Guid = Guid.NewGuid();
 		    });
-	    {
-	 </code>
+	    }
+	</code>
   </pre>
   </div>
   <div class="form-group">
