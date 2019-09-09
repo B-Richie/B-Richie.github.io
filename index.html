@@ -29,6 +29,28 @@
       Inherit this class within your cleint's service layer.
     </p>
     <h5>ConnectionStringConfiguration.cs</h5>
+    <p>Static middleware component for setting the connection strings for each provider.
+      The IOptions interface is used to map the appsettings.json database connection section from the client:
+    </p>
+    <code>
+      services.AddTransient(resolver =>
+      {
+	      var databaseConnections = resolver.GetService<IOptions<DatabaseConnections>>().Value;
+	      var iDbConnections = resolver.GetServices<IDbConnection>();
+      
+	      databaseConnections.OracleConnections.ToList().ForEach(ora =>
+	    {
+	      ora.dbConnection = iDbConnections.Where(w => w.GetType() == typeof(OracleConnection)).FirstOrDefault();
+	      ora.dbConnection.ConnectionString = ora.ConnectionString;
+	      ora.Guid = Guid.NewGuid();
+	    });
+	      databaseConnections.MSSqlConnections.ToList().ForEach(sql =>
+	    {
+	      sql.dbConnection = iDbConnections.Where(w => w.GetType() == typeof(SqlConnection)).FirstOrDefault();
+	      sql.dbConnection.ConnectionString = sql.ConnectionString;
+	      sql.Guid = Guid.NewGuid();
+	    });
+ </code>
   </div>
   <div class="form-group">
     <a href="https://github.com/B-Richie/Dapper_DAL">Dapper DAL Source Code</a>    
