@@ -42,24 +42,24 @@
     </p>
     <pre>
 	  <code>
-	      services.AddTransient(resolver =>
-	      {
-		      var databaseConnections = resolver.GetService<IOptions<DatabaseConnections>>().Value;
-		      var iDbConnections = resolver.GetServices<IDbConnection>();
+      services.AddTransient(resolver =>
+      {
+	      var databaseConnections = resolver.GetService<IOptions<DatabaseConnections>>().Value;
+	      var iDbConnections = resolver.GetServices<IDbConnection>();
 
-		      databaseConnections.OracleConnections.ToList().ForEach(ora =>
-		    {
-		      ora.dbConnection = iDbConnections.Where(w => w.GetType() == typeof(OracleConnection)).FirstOrDefault();
-		      ora.dbConnection.ConnectionString = ora.ConnectionString;
-		      ora.Guid = Guid.NewGuid();
-		    });
-		      databaseConnections.MSSqlConnections.ToList().ForEach(sql =>
-		    {
-		      sql.dbConnection = iDbConnections.Where(w => w.GetType() == typeof(SqlConnection)).FirstOrDefault();
-		      sql.dbConnection.ConnectionString = sql.ConnectionString;
-		      sql.Guid = Guid.NewGuid();
-		    });
-	    }
+	      databaseConnections.OracleConnections.ToList().ForEach(ora =>
+	    {
+	      ora.dbConnection = iDbConnections.Where(w => w.GetType() == typeof(OracleConnection)).FirstOrDefault();
+	      ora.dbConnection.ConnectionString = ora.ConnectionString;
+	      ora.Guid = Guid.NewGuid();
+	    });
+	      databaseConnections.MSSqlConnections.ToList().ForEach(sql =>
+	    {
+	      sql.dbConnection = iDbConnections.Where(w => w.GetType() == typeof(SqlConnection)).FirstOrDefault();
+	      sql.dbConnection.ConnectionString = sql.ConnectionString;
+	      sql.Guid = Guid.NewGuid();
+	    });
+    }
 	</code>
   </pre>
   </div>
@@ -73,24 +73,24 @@
 	<p>Add your providers and connection strings as follows:</p>
 	<pre>
 	<code>
-		"DatabaseConnections": {
-			    "OracleConnections": [
-			      {
-				"Alias": "Optional",        
-				"ConnectionString": "Required"
-			      },
-			      {
-				"Alias": "Optional",        
-				"ConnectionString": "Required"
-			      }
-			    ],
-			    "MSSqlConnections": [
-			      {
-				"Alias": "Optional",        
-				"ConnectionString": "Required"
-			      }
-			    ]
-		     }
+	"DatabaseConnections": {
+		    "OracleConnections": [
+		      {
+			"Alias": "Optional",        
+			"ConnectionString": "Required"
+		      },
+		      {
+			"Alias": "Optional",        
+			"ConnectionString": "Required"
+		      }
+		    ],
+		    "MSSqlConnections": [
+		      {
+			"Alias": "Optional",        
+			"ConnectionString": "Required"
+		      }
+		    ]
+	     }
 	</code>
 	</pre>
 	<p>
@@ -102,10 +102,10 @@
 	</p>
 	<pre>
 	<code>
-		public class ArtistService : BaseService, IArtistService
-		{
-		   ...
-		}
+	public class ArtistService : BaseService, IArtistService
+	{
+	   ...
+	}
 	</code>
 	</pre>
 	<p>
