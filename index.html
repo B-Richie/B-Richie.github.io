@@ -108,6 +108,15 @@
 		}
 	</code>
 	</pre>
+	<p>
+		Override the two abstract properties from the DAL project within your service layer:
+	</p>
+	<pre>
+	<code>
+		protected override IDbConnection Connection { get; set; }
+		protected override string SQL { get; set; }
+	</code>
+	</pre>
 	
 	  
   </div>
