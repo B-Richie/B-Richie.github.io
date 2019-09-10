@@ -97,6 +97,18 @@
 		Reference the Dapper_DAL data access layer project in your client:
 	</p>
 	<img src="Images/DAL_Reference.PNG" alt="DAL Reference" width="250px" height="150px">
+	<p>
+		Inherit the BaseService class in your service layer:
+	</p>
+	<pre>
+	<code>
+		public class ArtistService : BaseService, IArtistService
+		{
+		   ...
+		}
+	</code>
+	</pre>
+	
 	  
   </div>
   <div class="form-group">
