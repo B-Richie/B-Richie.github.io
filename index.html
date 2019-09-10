@@ -117,7 +117,30 @@
 	protected override string SQL { get; set; }
 	</code>
 	</pre>
-	
+	<p>	IDbConnection is the connection object passed into the DAL
+		SQL is the string object passed into the DAL if you want to use/set up generic CRUD methods such as:
+	</p>
+	<pre>
+	<code>
+	protected override Artist Get<Artist>(int id)
+	{
+	    SQL = "Select * from dbo.Artist a where a.ArtistID = :id";
+
+	    var result = base.Get<Artist>(id);
+	    return result;
+	}
+	</code>
+	</pre>
+	<p>Here's what the method looks like in the DAL:</p>
+	<pre>
+	<code>
+	protected virtual T Get<T>(int id) where T : class
+        {
+            var result = QueryFirstOrDefault<T>(SQL, new { id });
+            return result;
+        }
+	</code>
+	</pre>
 	  
   </div>
   <div class="form-group">
