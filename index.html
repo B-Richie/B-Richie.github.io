@@ -140,6 +140,22 @@
         }
 	</code>
 	</pre>
+	<p>Next, build your constructor for the service layer to inject the necessiary dependencies:</p>
+	<pre>
+	<code>
+	public ArtistService(IMapper mapper, DatabaseConnections databaseConnections, IOracleParameterFactory parameterFactory)
+	{
+    		_mapper = mapper;
+    		_DatabaseConnections = databaseConnections;
+    		_parameterFactory = parameterFactory;
+    		Connection = _DatabaseConnections.MSSqlConnections.Where(alias => alias.Alias == "Music").FirstOrDefault().dbConnection;
+	}
+	</code>
+	</pre>
+	<p>IMapper(AutoMapper) is used to easily map the table entity class
+	to your DTO(data transfer object) object. DatabaseConnections is the collection used to map the database connections
+	in the appsettings.json file. IOracleParameterFactory is the class used to instantiate OracleDynamicParameters 
+	needed for parameterized queries.</p>
 	  
   </div>
   <div class="form-group">
