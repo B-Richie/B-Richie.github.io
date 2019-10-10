@@ -157,7 +157,49 @@
 	to your DTO(data transfer object) object. DatabaseConnections is the collection used to map the database connections
 	in the appsettings.json file. IOracleParameterFactory is the class used to instantiate OracleDynamicParameters 
 	needed for parameterized queries.</p>
-	  
+	</br>
+	<p>The connection is being set in the constructor for this example. If you're planning to use more than one connection,
+	set the Connection object inside the calling method. If you're planning to use more than one provider, bypass using the
+	Connection object and the DAL all togther and simple call the Dapper methods directly in your service class.</p>
+	</br>
+	<p>Here are some sample methods for your service layer calling the Dapper DAL:</p>
+	<pre>
+	<code>
+	public async Task<IEnumerable<IArtistDto>> GetListAsync()
+	{
+	    const string sql = "Select * from dbo.Artist";
+	    var result = await QueryAsync<Artist>(sql);
+	    var mappedResult = _mapper.Map<IEnumerable<IArtistDto>>(result);
+	    return mappedResult;
+	}
+
+	public async Task<IArtistDto> GetFirstOrDefaultAsync(int id)
+	{
+	    const string sql = "Select * from dbo.Artist a where a.ArtistID = @id";
+	    var result = await QueryFirstOrDefaultAsync<Artist>(sql, new { id });
+	    var model = _mapper.Map<IArtistDto>(result);
+	    return model;
+	}
+
+	public async Task<int> DeleteAsync(decimal id)
+	{
+	    const string sql = "Delete from dbo.Artist a where a.ArtistID = @id";
+	    var result = await ExecuteAsync(sql, new { id });
+	    return result;
+	}
+
+	public IArtistDto CallProcedure(string Id)
+	{
+	    const string sql = "GET_ARTIST";
+	    var param2 = _parameterFactory.CreateOracleParameters();
+	    param2.Add("artistId", OracleDbType.Int32, ParameterDirection.Input, Id);
+	    param2.Add("artist", OracleDbType.RefCursor, ParameterDirection.Output);
+	    var result = QueryFirstOrDefault<Artist>(sql, param2, null, null, CommandType.StoredProcedure);
+	    var mappedResult = _mapper.Map<IArtistDto>(result);
+	    return mappedResult;
+	}
+	</code>
+	</pre>	  
   </div>
   <div class="form-group">
     <a href="https://github.com/B-Richie/Dapper_DAL">Dapper DAL Source Code</a>    
